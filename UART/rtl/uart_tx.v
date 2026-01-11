@@ -104,3 +104,20 @@ module uart_tx(
     end
 
     // updating internal register txd_reg
+    always @(posedge clk or negedge rst_n) begin
+        if(!rst_n) begin
+            rxd_reg <= 1'b1;
+        end else if(fsm_state == FSM_IDLE) begin 
+            txd_reg <= 1'b1;
+        end else if(fsm_state == FSM_START) begin 
+            txd_reg <= 1'b0;
+        end else if(fsm_state == FSM_SEND) begin 
+            txd_reg <= data_to_send[0];
+        end else if(fsm_state == FSM_STOP) begin 
+            txd_reg <= 1'b1;
+        end
+    end
+
+
+    
+endmodule
